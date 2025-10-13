@@ -17,7 +17,7 @@ HelloWord
 
 ## 🛠 My Tech Stacks
 
-<img align="left" src="Python.gif" alt="Python" width="230" /> 
+<img align="left" src="Python.gif" alt="Python" width="211" /> 
 
 <p align="center">
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-plain.svg" alt="JavaScript" width="50"/>
