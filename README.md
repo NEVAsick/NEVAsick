@@ -1,18 +1,17 @@
 ```
-HelloWord
+HelloWRLD
 --------------------------------------------------------
 
 ```
 
-<p align="center">
+<p align="left">
   <a href="https://t.me/PokinylChat">
-    <img src="https://www.svgrepo.com/show/303292/telegram-logo.svg" width="50" alt="Telegram" />
+    <img src="https://www.svgrepo.com/show/303292/telegram-logo.svg" width="30" alt="Telegram" />
   </a>
-  <a href="https://instagram.com">
-    <img src="https://www.svgrepo.com/show/452229/instagram-1.svg" width="50 alt="Instagram" />
+  <a href="https://www.instagram.com/a9ametov/">
+    <img src="https://www.svgrepo.com/show/452229/instagram-1.svg" width="30" alt="Instagram" />
   </a>
 </p>
-
 
 
 ## 🛠 My Tech Stacks
@@ -39,8 +38,12 @@ HelloWord
   <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL" width="50"/>
 </p>
 
+<img align="left" src="kanye-graduation.gif" alt="Duck" width="91" /> 
+
 ```
---------------------------------------------------------
+♫ Kanye West – I Wonder
+──────⚪────────────────────────────────
+◄◄⠀▐▐ ⠀►►⠀⠀⠀ 0:32 / 4:03　　🔇 ───○ 🔊
 ```
 
 <img align="center" src="duck.gif" alt="Duck" width="5000" /> 
