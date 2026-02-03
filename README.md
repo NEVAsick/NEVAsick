@@ -47,5 +47,5 @@ HelloWRLD
 ```
 
 
-## 📊 GitHub Metrics
+## 📊 GitHub Stats
 ![Metrics](https://github.com/NEVAsick/NEVAsick/blob/main/github-metrics.svg)
