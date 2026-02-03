@@ -45,3 +45,7 @@ HelloWRLD
 ──────⚪────────────────────────────────
 ◄◄⠀▐▐ ⠀►►⠀⠀⠀ 0:32 / 4:03　　🔇 ───○ 🔊
 ```
+
+
+## 📊 GitHub Metrics
+![Metrics](https://github.com/NEVAsick/NEVAsick/blob/main/github-metrics.svg)
