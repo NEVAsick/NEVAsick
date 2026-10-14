@@ -1,117 +1,373 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 140" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 210" width="100%" height="100%">
   <defs>
-    <!-- Эффект растекания чернил/мела -->
-    <filter id="space-bleed-pure" x="-20" y="-20" width="890" height="180" filterUnits="userSpaceOnUse">
-      <feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="3" seed="29" result="noise" />
-      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G" />
+    <!-- Гранж-фильтр для рваного края бумаги и меловых линий -->
+    <filter id="chalk-grunge-bot" x="-10%" y="-10%" width="120%" height="120%" filterUnits="userSpaceOnUse">
+      <feTurbulence type="fractalNoise" baseFrequency="0.11" numOctaves="3" seed="29" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.8" xChannelSelector="R" yChannelSelector="G" />
     </filter>
+
+    <!-- Живое дрожание контура (Line Boil) для центральных космических объектов -->
+    <filter id="live-boil-bot" x="-15%" y="-15%" width="130%" height="130%" filterUnits="userSpaceOnUse">
+      <feTurbulence type="fractalNoise" baseFrequency="0.08" numOctaves="3" seed="12" result="noise">
+        <animate attributeName="seed" values="12;28;49;73;12" dur="0.48s" repeatCount="indefinite" />
+      </feTurbulence>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="1.5" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+
+    <clipPath id="torn-strip-bot">
+      <polygon points="12,8 30,8 48,12 66,8 84,12 102,13 120,13 138,16 156,9 174,14 192,11 210,16 228,8 246,10 264,8 282,10 300,9 318,11 336,10 354,12 372,13 390,12 408,8 426,15 444,10 462,10 480,10 498,13 516,11 534,14 552,11 570,10 588,12 606,15 624,15 642,8 660,16 678,9 696,15 714,13 732,8 750,14 768,14 786,15 804,11 822,8 840,14 858,15 876,16 891,16 886,32 890,48 886,64 889,80 885,96 891,112 889,128 890,144 887,160 888,176 884,192 885,200 867,197 849,194 831,196 813,201 795,196 777,198 759,197 741,196 723,194 705,195 687,194 669,202 651,200 633,195 615,199 597,202 579,196 561,199 543,200 525,195 507,195 489,194 471,198 453,200 435,198 417,196 399,200 381,198 363,202 345,200 327,195 309,195 291,198 273,195 255,197 237,198 219,195 201,196 183,195 165,201 147,200 129,197 111,201 93,199 75,195 57,199 39,197 21,199 13,194 9,178 10,162 8,146 14,130 15,114 14,98 12,82 15,66 12,50 15,34 14,18" />
+    </clipPath>
+
+    <style>
+      /* Вращение скетч-колец вокруг горизонта событий черной дыры */
+      @keyframes bh-spin-cw {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+      }
+      @keyframes bh-spin-ccw {
+        0% { transform: rotate(360deg); }
+        100% { transform: rotate(0deg); }
+      }
+
+      /* Дыхание / пульсация наклонных аккреционных дисков черной дыры */
+      @keyframes disk-breathe-1 {
+        0%, 100% { transform: rotate(0deg) scale(1, 1); }
+        50% { transform: rotate(3deg) scale(1.04, 0.92); }
+      }
+      @keyframes disk-breathe-2 {
+        0%, 100% { transform: rotate(0deg) scale(1, 1); }
+        50% { transform: rotate(-3.5deg) scale(0.96, 1.06); }
+      }
+
+      /* Парение спутника («Спутник-1») на орбите */
+      @keyframes sputnik-float {
+        0%, 100% { transform: translate(0px, 0px) rotate(0deg); }
+        50% { transform: translate(4px, -4px) rotate(-4deg); }
+      }
+
+      /* Мягкое покачивание Сатурна */
+      @keyframes saturn-sway {
+        0%, 100% { transform: translate(0px, 0px) rotate(0deg); }
+        50% { transform: translate(0px, -3px) rotate(2.5deg); }
+      }
+
+      /* Движение и мерцание кометы */
+      @keyframes comet-pulse {
+        0%, 100% { transform: translate(0px, 0px); opacity: 0.95; }
+        50% { transform: translate(-5px, 3px); opacity: 0.7; }
+      }
+
+      /* Мерцание крупных 4-лучевых звезд */
+      @keyframes star-twinkle-1 {
+        0%, 100% { transform: scale(1); opacity: 0.95; }
+        50% { transform: scale(0.65); opacity: 0.35; }
+      }
+      @keyframes star-twinkle-2 {
+        0%, 100% { transform: scale(0.7); opacity: 0.4; }
+        50% { transform: scale(1.18); opacity: 1; }
+      }
+
+      /* Свечение созвездий */
+      @keyframes const-shimmer {
+        0%, 100% { opacity: 0.5; }
+        50% { opacity: 1; }
+      }
+
+      .bh-ring-cw {
+        transform-origin: 450px 105px;
+        animation: bh-spin-cw 34s infinite linear;
+      }
+      .bh-ring-ccw {
+        transform-origin: 450px 105px;
+        animation: bh-spin-ccw 24s infinite linear;
+      }
+      .bh-disk-1 {
+        transform-origin: 450px 105px;
+        animation: disk-breathe-1 4.5s infinite ease-in-out;
+      }
+      .bh-disk-2 {
+        transform-origin: 450px 105px;
+        animation: disk-breathe-2 5.2s infinite ease-in-out;
+      }
+      .sputnik {
+        transform-origin: 135px 52px;
+        animation: sputnik-float 3.8s infinite ease-in-out;
+      }
+      .saturn {
+        transform-origin: 215px 148px;
+        animation: saturn-sway 4.6s infinite ease-in-out;
+      }
+      .comet-group {
+        transform-origin: 650px 150px;
+        animation: comet-pulse 3.2s infinite ease-in-out;
+      }
+      .st-1 {
+        transform-origin: 800px 62px;
+        animation: star-twinkle-1 2.6s infinite ease-in-out;
+      }
+      .st-2 {
+        transform-origin: 838px 94px;
+        animation: star-twinkle-2 3.4s infinite ease-in-out;
+      }
+      .st-3 {
+        transform-origin: 792px 148px;
+        animation: star-twinkle-2 2.2s infinite ease-in-out 0.7s;
+      }
+      .st-4 {
+        transform-origin: 848px 160px;
+        animation: star-twinkle-1 3.1s infinite ease-in-out 1.2s;
+      }
+      .const-anim {
+        animation: const-shimmer 3.5s infinite ease-in-out;
+      }
+    </style>
   </defs>
 
-  <!-- 100% ПРОЗРАЧНЫЙ ФОН: ТОЛЬКО КОСМОС -->
-  <g filter="url(#space-bleed-pure)">
-    <!-- Двойная небрежная орбитальная линия горизонта -->
-    <path d="M 15,70 Q 210,57 425,73 T 835,65" fill="none" stroke="#52575B" stroke-width="4.8" stroke-linecap="round" />
-    <path d="M 45,76 Q 310,84 790,69" fill="none" stroke="#C4C9CC" stroke-width="2.2" stroke-linecap="round" />
+  <!-- Внешняя волокнистая кромка оторванной бумаги -->
+  <polygon points="11,6 31,6 49,10 66,6 86,10 100,11 120,11 139,14 158,7 172,12 192,9 209,14 229,6 248,8 264,6 282,8 300,7 317,9 335,8 355,10 374,11 390,10 407,6 428,13 446,8 461,8 478,8 497,11 517,9 534,12 554,9 570,8 587,10 608,13 624,13 640,6 659,14 680,7 694,13 712,11 734,6 752,12 769,12 785,13 802,9 824,6 839,12 859,13 878,14 891,14 886,30 891,46 888,62 889,78 883,94 891,114 888,130 888,146 885,162 888,178 882,194 883,202 869,199 851,196 830,198 811,203 793,198 777,200 759,199 743,198 722,196 706,197 686,196 667,204 652,202 632,197 614,201 597,204 577,198 559,201 541,202 526,197 507,197 487,196 471,200 453,202 436,200 418,198 399,202 381,200 362,204 344,202 329,197 311,197 289,200 275,197 253,199 236,200 219,197 201,198 181,197 165,203 148,202 128,199 112,203 94,201 77,197 57,201 41,199 20,201 13,196 8,180 9,164 6,148 15,132 17,116 16,96 12,80 14,64 12,48 14,32 13,16" fill="#9EA4A8" opacity="0.75" filter="url(#chalk-grunge-bot)" />
+  <polygon points="12,8 30,8 48,12 66,8 84,12 102,13 120,13 138,16 156,9 174,14 192,11 210,16 228,8 246,10 264,8 282,10 300,9 318,11 336,10 354,12 372,13 390,12 408,8 426,15 444,10 462,10 480,10 498,13 516,11 534,14 552,11 570,10 588,12 606,15 624,15 642,8 660,16 678,9 696,15 714,13 732,8 750,14 768,14 786,15 804,11 822,8 840,14 858,15 876,16 891,16 886,32 890,48 886,64 889,80 885,96 891,112 889,128 890,144 887,160 888,176 884,192 885,200 867,197 849,194 831,196 813,201 795,196 777,198 759,197 741,196 723,194 705,195 687,194 669,202 651,200 633,195 615,199 597,202 579,196 561,199 543,200 525,195 507,195 489,194 471,198 453,200 435,198 417,196 399,200 381,198 363,202 345,200 327,195 309,195 291,198 273,195 255,197 237,198 219,195 201,196 183,195 165,201 147,200 129,197 111,201 93,199 75,195 57,199 39,197 21,199 13,194 9,178 10,162 8,146 14,130 15,114 14,98 12,82 15,66 12,50 15,34 14,18" fill="#0D0E10" stroke="#52575B" stroke-width="2" filter="url(#chalk-grunge-bot)" />
 
-    <!-- ЛЕВАЯ ЧАСТЬ: -->
-    <!-- Далекая планета с кольцом (мини-Сатурн) -->
-    <g transform="translate(120, 60)">
-      <circle cx="0" cy="0" r="6" fill="#1E2022" transform="translate(1, 1)" />
-      <ellipse cx="0" cy="0" rx="16" ry="5" fill="none" stroke="#1E2022" stroke-width="3" transform="rotate(-15) translate(1, 1)" />
-      <circle cx="0" cy="0" r="6" fill="#0D0E10" stroke="#D8DDE0" stroke-width="1.6" />
-      <ellipse cx="0" cy="0" rx="16" ry="5" fill="none" stroke="#D8DDE0" stroke-width="1.6" transform="rotate(-15)" />
+  <!-- Внутреннее содержимое полосы (ТОЛЬКО КОСМОС, БЕЗ ТЕКСТА) -->
+  <g clip-path="url(#torn-strip-bot)">
+    <!-- Темный угольный фон -->
+    <rect width="900" height="210" fill="#0D0E10" />
+
+    <!-- Текстурные заломы и трещины на черной бумаге -->
+    <g stroke="#2C3034" stroke-width="1.3" fill="none" opacity="0.7" filter="url(#chalk-grunge-bot)">
+      <path d="M 115,10 L 135,95 L 152,200" />
+      <path d="M 330,12 L 365,60 L 340,125" />
+      <path d="M 555,15 L 580,110 L 570,200" />
+      <path d="M 715,10 L 745,105 L 760,200" />
+      <path d="M 280,10 Q 340,45 410,12" />
     </g>
 
-    <!-- Созвездие слева (Треугольник) -->
-    <g transform="translate(195, 45)" stroke-linecap="round">
-      <polygon points="0,14 18,0 32,16" fill="none" stroke="#1E2022" stroke-width="3" transform="translate(1, 1)" />
-      <polygon points="0,14 18,0 32,16" fill="none" stroke="#C8CDD0" stroke-width="1.6" />
-      <circle cx="0" cy="14" r="2.8" fill="#D8DDE0" />
-      <circle cx="18" cy="0" r="3.2" fill="#FFFFFF" />
-      <circle cx="32" cy="16" r="2.8" fill="#D8DDE0" />
+    <!-- Звездная пыль на фоне -->
+    <g>
+      <circle cx="562" cy="22" r="1.3" fill="#D8DDE0" opacity="0.65" />
+      <circle cx="158" cy="38" r="1.3" fill="#D8DDE0" opacity="0.56" />
+      <circle cx="221" cy="146" r="1.3" fill="#D8DDE0" opacity="0.71" />
+      <circle cx="687" cy="159" r="0.8" fill="#D8DDE0" opacity="0.70" />
+      <circle cx="287" cy="166" r="0.8" fill="#D8DDE0" opacity="0.76" />
+      <circle cx="178" cy="107" r="1.0" fill="#D8DDE0" opacity="0.64" />
+      <circle cx="575" cy="26" r="0.8" fill="#D8DDE0" opacity="0.79" />
+      <circle cx="613" cy="54" r="1.0" fill="#D8DDE0" opacity="0.74" />
+      <circle cx="747" cy="83" r="1.0" fill="#D8DDE0" opacity="0.39" />
+      <circle cx="730" cy="161" r="1.3" fill="#D8DDE0" opacity="0.27" />
+      <circle cx="73" cy="118" r="1.0" fill="#D8DDE0" opacity="0.36" />
+      <circle cx="504" cy="182" r="0.8" fill="#D8DDE0" opacity="0.29" />
+      <circle cx="252" cy="88" r="0.8" fill="#D8DDE0" opacity="0.47" />
+      <circle cx="745" cy="166" r="1.0" fill="#D8DDE0" opacity="0.65" />
+      <circle cx="173" cy="117" r="1.3" fill="#D8DDE0" opacity="0.28" />
+      <circle cx="852" cy="146" r="1.0" fill="#D8DDE0" opacity="0.76" />
+      <circle cx="395" cy="152" r="1.7" fill="#D8DDE0" opacity="0.75" />
+      <circle cx="358" cy="67" r="1.0" fill="#D8DDE0" opacity="0.84" />
+      <circle cx="523" cy="56" r="1.7" fill="#D8DDE0" opacity="0.49" />
+      <circle cx="32" cy="126" r="0.8" fill="#D8DDE0" opacity="0.38" />
+      <circle cx="211" cy="24" r="1.0" fill="#D8DDE0" opacity="0.37" />
+      <circle cx="520" cy="62" r="1.3" fill="#D8DDE0" opacity="0.83" />
+      <circle cx="869" cy="92" r="1.0" fill="#D8DDE0" opacity="0.56" />
+      <circle cx="305" cy="174" r="1.0" fill="#D8DDE0" opacity="0.39" />
+      <circle cx="463" cy="168" r="1.0" fill="#D8DDE0" opacity="0.32" />
+      <circle cx="787" cy="46" r="1.0" fill="#D8DDE0" opacity="0.79" />
+      <circle cx="777" cy="37" r="1.0" fill="#D8DDE0" opacity="0.83" />
+      <circle cx="812" cy="88" r="1.0" fill="#D8DDE0" opacity="0.29" />
+      <circle cx="809" cy="87" r="1.3" fill="#D8DDE0" opacity="0.64" />
+      <circle cx="43" cy="135" r="0.8" fill="#D8DDE0" opacity="0.68" />
+      <circle cx="611" cy="126" r="1.0" fill="#D8DDE0" opacity="0.81" />
+      <circle cx="47" cy="121" r="1.3" fill="#D8DDE0" opacity="0.45" />
+      <circle cx="555" cy="60" r="0.8" fill="#D8DDE0" opacity="0.26" />
+      <circle cx="213" cy="134" r="1.7" fill="#D8DDE0" opacity="0.30" />
+      <circle cx="456" cy="186" r="0.8" fill="#D8DDE0" opacity="0.40" />
+      <circle cx="296" cy="155" r="1.0" fill="#D8DDE0" opacity="0.73" />
+      <circle cx="437" cy="170" r="1.0" fill="#D8DDE0" opacity="0.39" />
+      <circle cx="324" cy="85" r="0.8" fill="#D8DDE0" opacity="0.77" />
+      <circle cx="398" cy="35" r="1.0" fill="#D8DDE0" opacity="0.67" />
+      <circle cx="51" cy="126" r="1.7" fill="#D8DDE0" opacity="0.46" />
+      <circle cx="688" cy="181" r="0.8" fill="#D8DDE0" opacity="0.69" />
+      <circle cx="286" cy="110" r="1.3" fill="#D8DDE0" opacity="0.37" />
+      <circle cx="154" cy="60" r="0.8" fill="#D8DDE0" opacity="0.50" />
+      <circle cx="566" cy="33" r="1.0" fill="#D8DDE0" opacity="0.59" />
+      <circle cx="337" cy="150" r="1.3" fill="#D8DDE0" opacity="0.41" />
+      <circle cx="467" cy="26" r="1.3" fill="#D8DDE0" opacity="0.49" />
+      <circle cx="194" cy="79" r="1.0" fill="#D8DDE0" opacity="0.43" />
+      <circle cx="621" cy="59" r="1.3" fill="#D8DDE0" opacity="0.50" />
+      <circle cx="377" cy="103" r="1.0" fill="#D8DDE0" opacity="0.61" />
+      <circle cx="705" cy="130" r="0.8" fill="#D8DDE0" opacity="0.54" />
+      <circle cx="673" cy="50" r="1.3" fill="#D8DDE0" opacity="0.85" />
+      <circle cx="69" cy="173" r="1.0" fill="#D8DDE0" opacity="0.60" />
+      <circle cx="514" cy="154" r="1.3" fill="#D8DDE0" opacity="0.41" />
+      <circle cx="405" cy="168" r="0.8" fill="#D8DDE0" opacity="0.39" />
+      <circle cx="533" cy="96" r="1.3" fill="#D8DDE0" opacity="0.39" />
+      <circle cx="517" cy="181" r="1.0" fill="#D8DDE0" opacity="0.84" />
+      <circle cx="302" cy="184" r="0.8" fill="#D8DDE0" opacity="0.55" />
+      <circle cx="122" cy="57" r="1.0" fill="#D8DDE0" opacity="0.42" />
     </g>
 
-    <!-- Пунктирная траектория орбиты спутника вокруг сингулярности -->
-    <path d="M 285,92 Q 425,38 565,88" fill="none" stroke="#1E2022" stroke-width="3" stroke-dasharray="4,6" transform="translate(1, 1)" />
-    <path d="M 285,92 Q 425,38 565,88" fill="none" stroke="#D8DDE0" stroke-width="1.5" stroke-dasharray="4,6" />
-
-    <!-- Космический зонд («Вояджер»), летящий по орбите слева -->
-    <g transform="translate(320, 68) rotate(-18)">
-      <rect x="-6" y="-4" width="12" height="8" fill="#1E2022" stroke="#1E2022" stroke-width="2" transform="translate(1, 1)" />
-      <rect x="-6" y="-4" width="12" height="8" fill="#0D0E10" stroke="#D8DDE0" stroke-width="1.6" />
-      <line x1="-15" y1="0" x2="-6" y2="0" stroke="#D8DDE0" stroke-width="2.5" stroke-linecap="round" />
-      <line x1="6" y1="0" x2="15" y2="0" stroke="#D8DDE0" stroke-width="2.5" stroke-linecap="round" />
-      <line x1="0" y1="-4" x2="0" y2="-12" stroke="#D8DDE0" stroke-width="1.5" />
-      <circle cx="0" cy="-12" r="1.8" fill="#D8DDE0" />
+    <!-- Горизонтальная двойная меловая линия (разделяется у черной дыры) -->
+    <g filter="url(#chalk-grunge-bot)" stroke-linecap="round" fill="none">
+      <path d="M 12,105 Q 190,103 386,105" stroke="#D8DDE0" stroke-width="2.4" />
+      <path d="M 12,109 Q 200,111 386,108" stroke="#6E7578" stroke-width="1.2" />
+      <path d="M 514,105 Q 700,103 888,105" stroke="#D8DDE0" stroke-width="2.4" />
+      <path d="M 514,109 Q 710,111 888,108" stroke="#6E7578" stroke-width="1.2" />
     </g>
 
-    <!-- ЦЕНТР: Чёрная дыра / Сингулярность с аккреционными кольцами и лучами квазара -->
-    <g transform="translate(425, 72)">
-      <!-- Аккреционный диск: тень -->
-      <ellipse cx="0" cy="0" rx="44" ry="15" fill="none" stroke="#1E2022" stroke-width="5" transform="rotate(14)" />
-      <ellipse cx="0" cy="0" rx="30" ry="10" fill="none" stroke="#1E2022" stroke-width="3.5" transform="rotate(-25)" />
-      <circle cx="0" cy="0" r="15" fill="#1E2022" stroke="#1E2022" stroke-width="3" />
+    <!-- ================= ЛЕВАЯ ЧАСТЬ ================= -->
 
-      <!-- Меловые кольца диска -->
-      <ellipse cx="0" cy="0" rx="44" ry="15" fill="none" stroke="#D8DDE0" stroke-width="2.4" transform="rotate(14)" />
-      <ellipse cx="0" cy="0" rx="30" ry="10" fill="none" stroke="#7E8487" stroke-width="1.4" stroke-dasharray="8,4" transform="rotate(-25)" />
+    <!-- Большая пунктирная траектория орбиты спутника -->
+    <path d="M 12,155 C 45,75 175,28 265,58 C 335,82 325,168 245,198" 
+          fill="none" stroke="#D8DDE0" stroke-width="1.8" stroke-dasharray="7,7" opacity="0.85" filter="url(#chalk-grunge-bot)" />
 
-      <!-- Черное ядро сингулярности -->
-      <circle cx="0" cy="0" r="11" fill="#0D0E10" stroke="#D8DDE0" stroke-width="2.6" />
-      <circle cx="0" cy="0" r="3.2" fill="#FFFFFF" />
-
-      <!-- Вертикальный и горизонтальный луч квазара / прицел -->
-      <line x1="0" y1="-32" x2="0" y2="32" stroke="#1E2022" stroke-width="3.5" transform="translate(1, 1)" />
-      <line x1="-36" y1="0" x2="36" y2="0" stroke="#1E2022" stroke-width="3.5" transform="translate(1, 1)" />
-      <line x1="0" y1="-32" x2="0" y2="32" stroke="#C8CDD0" stroke-width="2" />
-      <line x1="-36" y1="0" x2="36" y2="0" stroke="#C8CDD0" stroke-width="2" />
-
-      <!-- Калибровочные риски -->
-      <line x1="-3" y1="-20" x2="3" y2="-20" stroke="#C8CDD0" stroke-width="1.5" />
-      <line x1="-3" y1="20" x2="3" y2="20" stroke="#C8CDD0" stroke-width="1.5" />
-      <line x1="-22" y1="-3" x2="-22" y2="3" stroke="#C8CDD0" stroke-width="1.5" />
-      <line x1="22" y1="-3" x2="22" y2="3" stroke="#C8CDD0" stroke-width="1.5" />
+    <!-- Спутник («Спутник-1») с усиками-антеннами и штриховкой -->
+    <g class="sputnik" filter="url(#live-boil-bot)">
+      <path d="M 92,72 Q 112,60 124,55" fill="none" stroke="#9EA4A8" stroke-width="1.3" stroke-dasharray="4,4" />
+      <line x1="126" y1="48" x2="96" y2="54" stroke="#D8DDE0" stroke-width="1.6" stroke-linecap="round" />
+      <line x1="128" y1="53" x2="102" y2="72" stroke="#D8DDE0" stroke-width="1.6" stroke-linecap="round" />
+      <line x1="133" y1="57" x2="116" y2="86" stroke="#D8DDE0" stroke-width="1.6" stroke-linecap="round" />
+      <line x1="138" y1="58" x2="128" y2="92" stroke="#9EA4A8" stroke-width="1.3" stroke-linecap="round" />
+      <circle cx="136" cy="49" r="10.5" fill="#0D0E10" stroke="#ECEEEF" stroke-width="2.2" />
+      <path d="M 128,43 Q 136,50 144,43" fill="none" stroke="#D8DDE0" stroke-width="1.5" />
+      <path d="M 130,52 L 136,58 M 134,50 L 140,57 M 138,48 L 144,54" stroke="#ECEEEF" stroke-width="1.6" stroke-linecap="round" />
+      <circle cx="133" cy="45" r="1.8" fill="#FFFFFF" />
     </g>
 
-    <!-- ПРАВАЯ ЧАСТЬ: -->
-    <!-- Созвездие справа от черной дыры (W-образная Кассиопея) -->
-    <g transform="translate(515, 48)" stroke-linecap="round">
-      <path d="M 0,9 L 12,0 L 25,13 L 39,2 L 51,15" fill="none" stroke="#1E2022" stroke-width="3" transform="translate(1, 1)" />
-      <path d="M 0,9 L 12,0 L 25,13 L 39,2 L 51,15" fill="none" stroke="#C8CDD0" stroke-width="1.6" />
-      <circle cx="0" cy="9" r="2.8" fill="#D8DDE0" />
-      <circle cx="12" cy="0" r="2.6" fill="#D8DDE0" />
-      <circle cx="25" cy="13" r="3.2" fill="#FFFFFF" />
-      <circle cx="39" cy="2" r="2.6" fill="#D8DDE0" />
-      <circle cx="51" cy="15" r="3.0" fill="#D8DDE0" />
+    <!-- Созвездие-треугольник слева снизу -->
+    <g class="const-anim" filter="url(#chalk-grunge-bot)" stroke="#D8DDE0" stroke-width="1.5" fill="#FFFFFF">
+      <polygon points="48,176 62,135 96,166" fill="none" />
+      <circle cx="48" cy="176" r="2.5" />
+      <path d="M 62,129 L 62,141 M 56,135 L 68,135" stroke="#FFFFFF" stroke-width="1.6" />
+      <circle cx="62" cy="135" r="2.5" />
+      <path d="M 96,160 L 96,172 M 90,166 L 102,166" stroke="#FFFFFF" stroke-width="1.6" />
+      <circle cx="96" cy="166" r="2.6" />
     </g>
 
-    <!-- Комета / падающая звезда справа -->
-    <g transform="translate(685, 42) rotate(25)">
-      <line x1="0" y1="0" x2="28" y2="0" stroke="#1E2022" stroke-width="3" stroke-linecap="round" transform="translate(1, 1)" />
-      <line x1="0" y1="0" x2="28" y2="0" stroke="#C8CDD0" stroke-width="1.8" stroke-linecap="round" />
-      <circle cx="28" cy="0" r="3" fill="#FFFFFF" />
+    <!-- Заштрихованный Сатурн с многослойными кольцами -->
+    <g class="saturn" filter="url(#live-boil-bot)">
+      <!-- Задняя половина колец -->
+      <g transform="rotate(-24 215 148)" fill="none">
+        <ellipse cx="215" cy="148" rx="46" ry="11.5" stroke="#9EA4A8" stroke-width="1.5" />
+        <ellipse cx="215" cy="148" rx="40" ry="9" stroke="#ECEEEF" stroke-width="2.2" />
+        <ellipse cx="215" cy="148" rx="33" ry="6.8" stroke="#7E8487" stroke-width="1.4" />
+      </g>
+
+      <!-- Шар планеты Сатурн -->
+      <circle cx="215" cy="148" r="18.5" fill="#0D0E10" stroke="#ECEEEF" stroke-width="2.4" />
+      <path d="M 200,140 Q 215,134 228,138 M 197,146 Q 215,140 232,144 M 198,152 Q 215,147 232,151 M 202,158 Q 215,154 229,157 M 208,163 Q 216,161 224,162" 
+            fill="none" stroke="#D8DDE0" stroke-width="1.6" stroke-linecap="round" />
+
+      <!-- Передняя половина колец поверх шара -->
+      <g transform="rotate(-24 215 148)" fill="none" stroke-linecap="round">
+        <path d="M 169,148 A 46,11.5 0 0,0 261,148" stroke="#9EA4A8" stroke-width="1.8" />
+        <path d="M 175,148 A 40,9 0 0,0 255,148" stroke="#ECEEEF" stroke-width="2.6" />
+        <path d="M 182,148 A 33,6.8 0 0,0 248,148" stroke="#D8DDE0" stroke-width="1.6" />
+      </g>
     </g>
 
-    <!-- Одиночные 4-лучевые сияющие звезды -->
-    <g transform="translate(65, 52)">
-      <path d="M 0,-7 L 0,7 M -7,0 L 7,0" stroke="#1E2022" stroke-width="3" transform="translate(1, 1)" />
-      <path d="M 0,-7 L 0,7 M -7,0 L 7,0" stroke="#D8DDE0" stroke-width="1.6" />
+    <!-- ================= ЦЕНТР: ЧЁРНАЯ ДЫРА / СИНГУЛЯРНОСТЬ ================= -->
+
+    <!-- Внешние вращающиеся скетч-кольца вокруг горизонта событий -->
+    <g class="bh-ring-cw" filter="url(#chalk-grunge-bot)" fill="none">
+      <circle cx="450" cy="105" r="52" stroke="#D8DDE0" stroke-width="1.8" stroke-dasharray="80,12,50,16,90,10" />
+      <circle cx="450" cy="105" r="57" stroke="#7E8487" stroke-width="1.1" stroke-dasharray="40,20,70,15" />
     </g>
-    <g transform="translate(620, 52)">
-      <path d="M 0,-8 L 0,8 M -8,0 L 8,0" stroke="#1E2022" stroke-width="3" transform="translate(1, 1)" />
-      <path d="M 0,-8 L 0,8 M -8,0 L 8,0" stroke="#D8DDE0" stroke-width="1.6" />
-    </g>
-    <g transform="translate(775, 55)">
-      <path d="M 0,-7 L 0,7 M -7,0 L 7,0" stroke="#1E2022" stroke-width="3" transform="translate(1, 1)" />
-      <path d="M 0,-7 L 0,7 M -7,0 L 7,0" stroke="#D8DDE0" stroke-width="1.6" />
+    <g class="bh-ring-ccw" filter="url(#chalk-grunge-bot)" fill="none">
+      <circle cx="450" cy="105" r="47" stroke="#9EA4A8" stroke-width="1.4" stroke-dasharray="60,14,35,12,75,18" />
     </g>
 
-    <!-- Точки звездного поля / пыль -->
-    <circle cx="160" cy="85" r="2.4" fill="#C4C9CC" />
-    <circle cx="260" cy="52" r="3.0" fill="#6E7578" />
-    <circle cx="375" cy="98" r="2.0" fill="#C4C9CC" />
-    <circle cx="485" cy="95" r="2.2" fill="#6E7578" />
-    <circle cx="650" cy="85" r="2.8" fill="#6E7578" />
-    <circle cx="730" cy="78" r="2.2" fill="#C4C9CC" />
+    <!-- Наклонный аккреционный диск 2 (угол -52°) -->
+    <g transform="rotate(-52 450 105)">
+      <g class="bh-disk-2" filter="url(#chalk-grunge-bot)" fill="none">
+        <ellipse cx="450" cy="105" rx="84" ry="12" stroke="#9EA4A8" stroke-width="1.4" />
+        <ellipse cx="450" cy="105" rx="75" ry="9" stroke="#D8DDE0" stroke-width="1.8" stroke-dasharray="90,15,60,12" />
+      </g>
+    </g>
+
+    <!-- Главный широкий аккреционный диск 1 (угол -22°) -->
+    <g transform="rotate(-22 450 105)">
+      <g class="bh-disk-1" filter="url(#live-boil-bot)" fill="none">
+        <ellipse cx="450" cy="105" rx="116" ry="21" stroke="#7E8487" stroke-width="1.3" />
+        <ellipse cx="450" cy="105" rx="106" ry="18" stroke="#D8DDE0" stroke-width="2.2" />
+        <ellipse cx="450" cy="105" rx="96" ry="15" stroke="#ECEEEF" stroke-width="1.8" stroke-dasharray="140,18,80,14" />
+        <ellipse cx="450" cy="105" rx="84" ry="12" stroke="#9EA4A8" stroke-width="1.2" />
+      </g>
+    </g>
+
+    <!-- Чёрное ядро горизонта событий + передние дуги дисков и диагональные лучи-джеты -->
+    <g filter="url(#live-boil-bot)">
+      <circle cx="450" cy="105" r="38" fill="#050506" stroke="#ECEEEF" stroke-width="2.6" />
+      <circle cx="450" cy="105" r="42" fill="none" stroke="#9EA4A8" stroke-width="1.2" stroke-dasharray="35,10,55,8" />
+
+      <g transform="rotate(-22 450 105)" fill="none" stroke-linecap="round">
+        <path d="M 344,105 A 106,18 0 0,0 556,105" stroke="#ECEEEF" stroke-width="2.4" />
+        <path d="M 354,105 A 96,15 0 0,0 546,105" stroke="#D8DDE0" stroke-width="1.6" stroke-dasharray="70,12,50,10" />
+      </g>
+
+      <!-- Диагональные лучи-джеты (X-образное перекрестие сквозь черную дыру) -->
+      <line x1="382" y1="42" x2="518" y2="168" stroke="#ECEEEF" stroke-width="2.2" stroke-linecap="round" />
+      <line x1="386" y1="40" x2="514" y2="170" stroke="#7E8487" stroke-width="1.1" stroke-linecap="round" />
+      <line x1="395" y1="162" x2="505" y2="48" stroke="#ECEEEF" stroke-width="1.8" stroke-linecap="round" />
+    </g>
+
+    <!-- ================= ПРАВАЯ ЧАСТЬ ================= -->
+
+    <!-- Созвездие Кассиопеи (W-образное) сверху справа с 4-лучевыми звездами в узлах -->
+    <g class="const-anim" filter="url(#chalk-grunge-bot)" stroke="#D8DDE0" stroke-width="1.5" fill="#FFFFFF">
+      <polyline points="615,42 640,62 662,55 682,82 698,56" fill="none" stroke-linejoin="round" />
+      <g transform="translate(615, 42)">
+        <path d="M 0,-5 L 0,5 M -5,0 L 5,0" stroke="#FFFFFF" stroke-width="1.5" />
+        <circle cx="0" cy="0" r="2" />
+      </g>
+      <g transform="translate(640, 62)">
+        <path d="M 0,-5 L 0,5 M -5,0 L 5,0" stroke="#FFFFFF" stroke-width="1.5" />
+        <circle cx="0" cy="0" r="2" />
+      </g>
+      <g transform="translate(662, 55)">
+        <path d="M 0,-5 L 0,5 M -5,0 L 5,0" stroke="#FFFFFF" stroke-width="1.5" />
+        <circle cx="0" cy="0" r="2.2" />
+      </g>
+      <g transform="translate(682, 82)">
+        <path d="M 0,-6 L 0,6 M -6,0 L 6,0" stroke="#FFFFFF" stroke-width="1.8" />
+        <circle cx="0" cy="0" r="2.5" />
+      </g>
+      <g transform="translate(698, 56)">
+        <path d="M 0,-6 L 0,6 M -6,0 L 6,0" stroke="#FFFFFF" stroke-width="1.8" />
+        <circle cx="0" cy="0" r="2.4" />
+      </g>
+    </g>
+
+    <!-- Хвостатая комета снизу справа (с веером меловых штрихов) -->
+    <g class="comet-group" filter="url(#live-boil-bot)" stroke-linecap="round">
+      <line x1="608" y1="176" x2="672" y2="128" stroke="#ECEEEF" stroke-width="2.4" />
+      <line x1="610" y1="180" x2="682" y2="136" stroke="#ECEEEF" stroke-width="2.2" />
+      <line x1="614" y1="183" x2="678" y2="148" stroke="#D8DDE0" stroke-width="1.8" />
+      <line x1="606" y1="172" x2="658" y2="126" stroke="#9EA4A8" stroke-width="1.4" />
+      <line x1="618" y1="184" x2="666" y2="158" stroke="#9EA4A8" stroke-width="1.3" />
+      <line x1="635" y1="158" x2="688" y2="124" stroke="#7E8487" stroke-width="1.1" stroke-dasharray="6,4" />
+      <circle cx="609" cy="178" r="5.5" fill="#ECEEEF" />
+      <circle cx="608" cy="179" r="3.2" fill="#FFFFFF" />
+    </g>
+
+    <!-- 4 крупные четырёхлучевые звезды справа -->
+    <g class="st-1" filter="url(#live-boil-bot)">
+      <path d="M 800,34 Q 800,62 772,62 Q 800,62 800,90 Q 800,62 828,62 Q 800,62 800,34 Z" 
+            fill="#ECEEEF" stroke="#FFFFFF" stroke-width="1.2" stroke-linejoin="round" />
+      <line x1="800" y1="26" x2="800" y2="98" stroke="#FFFFFF" stroke-width="1.2" />
+      <line x1="764" y1="62" x2="836" y2="62" stroke="#FFFFFF" stroke-width="1.2" />
+    </g>
+
+    <g class="st-2" filter="url(#chalk-grunge-bot)">
+      <path d="M 838,76 Q 838,94 820,94 Q 838,94 838,112 Q 838,94 856,94 Q 838,94 838,76 Z" 
+            fill="#0D0E10" stroke="#D8DDE0" stroke-width="1.5" stroke-linejoin="round" />
+    </g>
+
+    <g class="st-3" filter="url(#live-boil-bot)">
+      <path d="M 792,130 Q 792,148 774,148 Q 792,148 792,166 Q 792,148 810,148 Q 792,148 792,130 Z" 
+            fill="#ECEEEF" stroke="#FFFFFF" stroke-width="1.2" stroke-linejoin="round" />
+    </g>
+
+    <g class="st-4" filter="url(#chalk-grunge-bot)">
+      <path d="M 848,136 Q 848,160 824,160 Q 848,160 848,184 Q 848,160 872,160 Q 848,160 848,136 Z" 
+            fill="#0D0E10" stroke="#ECEEEF" stroke-width="1.6" stroke-linejoin="round" />
+      <circle cx="848" cy="160" r="2" fill="#FFFFFF" />
+    </g>
   </g>
 </svg>
