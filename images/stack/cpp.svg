@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100%">
+  <defs>
+    <filter id="grunge" x="-15%" y="-15%" width="130%" height="130%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.13" numOctaves="3" seed="21" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+  </defs>
+
+  <g filter="url(#grunge)">
+    <!-- Тёмная карточка -->
+    <rect width="100" height="100" rx="10" fill="#0D0E10" stroke="#52575B" stroke-width="3" />
+    <!-- Оторванный белый лоскут -->
+    <path d="M 15,15 C 38,13 62,17 83,14 C 86,37 83,61 85,83 C 61,85 38,82 17,84 C 14,58 16,36 15,15 Z" fill="#D8DDE0" />
+
+    <!-- Огромная, жесткая буква "С", нарисованная по кругу -->
+    <path d="M 52,34 C 42,30 26,33 26,50 C 26,67 42,70 52,66" fill="none" stroke="#1E2022" stroke-width="8.5" stroke-linecap="round" />
+
+    <!-- Наглые плюсы "++" (как маркерные кресты) -->
+    <!-- Первый плюс -->
+    <path d="M 58,48 L 72,48" stroke="#1E2022" stroke-width="6" stroke-linecap="round" />
+    <path d="M 65,41 L 65,55" stroke="#1E2022" stroke-width="6" stroke-linecap="round" />
+
+    <!-- Второй плюс -->
+    <path d="M 72,59 L 86,59" stroke="#1E2022" stroke-width="6" stroke-linecap="round" />
+    <path d="M 79,52 L 79,66" stroke="#1E2022" stroke-width="6" stroke-linecap="round" />
+  </g>
+</svg>

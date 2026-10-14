@@ -15,6 +15,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           user: NEVAsick
+          filename: images/stats/github-metrics.svg
 
           config_display: large
           config_timezone: Asia/Krasnoyarsk

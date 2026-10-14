@@ -1,0 +1,89 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 850 160" width="100%" height="100%">
+  <defs>
+    <!-- Эффект растекания мела/чернил -->
+    <filter id="space-bleed-top" x="-20" y="-20" width="890" height="200" filterUnits="userSpaceOnUse">
+      <feTurbulence type="fractalNoise" baseFrequency="0.1" numOctaves="3" seed="16" result="noise" />
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G" />
+    </filter>
+    <style>
+      .hi-txt { font: 900 26px 'Impact', 'Arial Black', sans-serif; letter-spacing: 2.8px; }
+      .sub-txt { font: italic 800 17px 'Comic Sans MS', 'Bradley Hand', sans-serif; letter-spacing: 2px; }
+      .dark-sh { fill: #1E2022; stroke: #1E2022; stroke-linejoin: round; }
+      .light-ch { fill: #D8DDE0; stroke: #D8DDE0; stroke-linejoin: round; }
+    </style>
+  </defs>
+
+  <g filter="url(#space-bleed-top)">
+    <!-- Левое приветствие: OH, HI ¿? -->
+    <g transform="translate(42, 54) rotate(-4)">
+      <text x="2" y="2" class="hi-txt dark-sh" stroke-width="3">OH, HI ¿?</text>
+      <text x="0" y="0" class="hi-txt light-ch" stroke-width="1">OH, HI ¿?</text>
+    </g>
+
+    <!-- Двойная небрежная орбитальная линия горизонта -->
+    <path d="M 15,84 Q 210,71 425,87 T 835,79" fill="none" stroke="#52575B" stroke-width="4.8" stroke-linecap="round" />
+    <path d="M 45,90 Q 310,98 790,83" fill="none" stroke="#C4C9CC" stroke-width="2.2" stroke-linecap="round" />
+
+    <!-- Центр: Полумесяц в кольце орбиты и звезда -->
+    <g transform="translate(415, 80)">
+      <!-- Тень месяца -->
+      <path d="M -16,-28 C 4,-28 14,-14 14,2 C 14,18 4,32 -16,32 C -5,22 -2,12 -2,2 C -2,-8 -5,-18 -16,-28 Z" 
+            fill="#1E2022" stroke="#1E2022" stroke-width="4" transform="translate(2, 2)" />
+      <!-- Меловой месяц -->
+      <path d="M -16,-28 C 4,-28 14,-14 14,2 C 14,18 4,32 -16,32 C -5,22 -2,12 -2,2 C -2,-8 -5,-18 -16,-28 Z" 
+            fill="#D8DDE0" stroke="#C8CDD0" stroke-width="1.5" />
+
+      <!-- Кольцо орбиты -->
+      <ellipse cx="0" cy="2" rx="38" ry="11" fill="none" stroke="#1E2022" stroke-width="4.5" transform="rotate(-18)" />
+      <ellipse cx="0" cy="2" rx="38" ry="11" fill="none" stroke="#D8DDE0" stroke-width="2.2" transform="rotate(-18)" />
+
+      <!-- 4-лучевая звезда над месяцем -->
+      <g transform="translate(24, -24)">
+        <path d="M 0,-11 L 0,11 M -11,0 L 11,0" stroke="#1E2022" stroke-width="4" stroke-linecap="round" transform="translate(1.5, 1.5)" />
+        <path d="M 0,-11 L 0,11 M -11,0 L 11,0" stroke="#FFFFFF" stroke-width="2.2" stroke-linecap="round" />
+        <circle cx="0" cy="0" r="2.2" fill="#FFFFFF" />
+      </g>
+    </g>
+
+    <!-- Созвездие слева от центра -->
+    <g stroke="#1E2022" stroke-width="3" stroke-linecap="round" transform="translate(1.5, 1.5)">
+      <line x1="260" y1="70" x2="295" y2="58" />
+      <line x1="295" y1="58" x2="320" y2="74" />
+    </g>
+    <g stroke="#C8CDD0" stroke-width="1.8" stroke-linecap="round">
+      <line x1="260" y1="70" x2="295" y2="58" />
+      <line x1="295" y1="58" x2="320" y2="74" />
+      <circle cx="260" cy="70" r="3.0" fill="#D8DDE0" />
+      <circle cx="295" cy="58" r="2.6" fill="#D8DDE0" />
+      <circle cx="320" cy="74" r="3.0" fill="#FFFFFF" />
+    </g>
+
+    <!-- Маленькая планета справа от месяца -->
+    <g transform="translate(505, 72)">
+      <circle cx="0" cy="0" r="5" fill="#1E2022" transform="translate(1, 1)" />
+      <ellipse cx="0" cy="0" rx="14" ry="4" fill="none" stroke="#1E2022" stroke-width="3" transform="rotate(-15) translate(1, 1)" />
+      <circle cx="0" cy="0" r="5" fill="#0D0E10" stroke="#D8DDE0" stroke-width="1.5" />
+      <ellipse cx="0" cy="0" rx="14" ry="4" fill="none" stroke="#D8DDE0" stroke-width="1.5" transform="rotate(-15)" />
+    </g>
+
+    <!-- Мерцающие звёздочки и космическая пыль -->
+    <g transform="translate(205, 62)">
+      <path d="M 0,-6 L 0,6 M -6,0 L 6,0" stroke="#1E2022" stroke-width="3" transform="translate(1, 1)" />
+      <path d="M 0,-6 L 0,6 M -6,0 L 6,0" stroke="#D8DDE0" stroke-width="1.5" />
+    </g>
+    <g transform="translate(575, 66)">
+      <path d="M 0,-7 L 0,7 M -7,0 L 7,0" stroke="#1E2022" stroke-width="3" transform="translate(1, 1)" />
+      <path d="M 0,-7 L 0,7 M -7,0 L 7,0" stroke="#D8DDE0" stroke-width="1.6" />
+    </g>
+
+    <circle cx="230" cy="98" r="2.2" fill="#C4C9CC" />
+    <circle cx="635" cy="62" r="3.2" fill="#6E7578" />
+    <circle cx="660" cy="92" r="2.0" fill="#C4C9CC" />
+
+    <!-- Правая надпись: // STILL HERE. STILL BUILDING. -->
+    <g transform="translate(490, 126) rotate(-1.5)">
+      <text x="1.5" y="1.5" class="sub-txt dark-sh" stroke-width="2">// STILL HERE. STILL BUILDING.</text>
+      <text x="0" y="0" class="sub-txt light-ch" stroke-width="0.6">// STILL HERE. STILL BUILDING.</text>
+    </g>
+  </g>
+</svg>
